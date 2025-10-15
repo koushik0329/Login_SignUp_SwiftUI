@@ -11,11 +11,9 @@ struct LogInScreen: View {
     
     @State private var email: String = ""
     @State private var password: String = ""
-    
-    @State private var path = NavigationPath()
+    @State private var isSignUpScreenPresented = false
     
     var body : some View {
-        NavigationStack(path: $path) {
             VStack (alignment : .leading, spacing: 10){
                 Text("Login")
                     .font(.title)
@@ -40,16 +38,14 @@ struct LogInScreen: View {
             }
             
             Button("Create Account"){
-                path.append("SignUpScreen")
+                isSignUpScreenPresented = true
             }
             .padding(.top, 20)
             
-            .navigationDestination(for: String.self) { value in
-                if value == "SignUpScreen" {
-                    SignUpScreen()
-                }
-            }
-        }
+            .navigationDestination(
+                isPresented: $isSignUpScreenPresented,
+                destination: { SignUpScreen() }
+            )
     }
 }
 
